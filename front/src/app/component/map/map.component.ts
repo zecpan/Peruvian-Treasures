@@ -23,8 +23,19 @@ export class MapComponent implements OnInit {
       'C',
       3,
       4,
-      new Array<Mountain>(new Mountain('M', 0, 2), new Mountain('M', 1, 1)),
-      new Array<Treasur>(new Treasur('T', 0, 0, 3), new Treasur('T', 0, 1, 2)),
+      new Array<Mountain>(
+        new Mountain('M', 0, 2),
+        new Mountain('M', 1, 1),
+        new Mountain('M', 3, 1),
+        new Mountain('M', 1, 1)
+      ),
+      new Array<Treasur>(
+        new Treasur('T', 0, 0, 3),
+        new Treasur('T', 0, 1, 2),
+        new Treasur('T', 1, 1, 1),
+        new Treasur('T', 1, -1, 1),
+        new Treasur('T', 0, 1, 2)
+      ),
       new Array<Adventurer>(
         new Adventurer('A', 'TOTO', 2, 2, 'S', 'ADADADGAA', 0)
       )
