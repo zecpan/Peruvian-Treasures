@@ -23,10 +23,18 @@ export class Map {
       if (this.checkCoordinates(treasur)) coordinates.push(treasur);
     });
     this.treasures = this.treasures.filter((r) => coordinates.includes(r));
+    let invalidAdventurer: Adventurer;
     this.adventurers.forEach((adventurer) => {
-      if (this.checkCoordinates(adventurer)) coordinates.push(adventurer);
+      if (adventurer.isValid()) {
+        if (this.checkCoordinates(adventurer)) coordinates.push(adventurer);
+      } else {
+        invalidAdventurer = adventurer;
+      }
     });
     this.adventurers = this.adventurers.filter((r) => coordinates.includes(r));
+    this.adventurers = this.adventurers.filter(
+      (valid) => valid != invalidAdventurer
+    );
 
     console.log(coordinates);
   }

@@ -37,7 +37,8 @@ export class MapComponent implements OnInit {
         new Treasur('T', 0, 1, 2)
       ),
       new Array<Adventurer>(
-        new Adventurer('A', 'TOTO', 2, 2, 'S', 'ADADADGAA', 0)
+        new Adventurer('A', 'Indianna Jones', 2, 2, 'S', 'ADADADGAA', 0),
+        new Adventurer('A', 'Donald Trump', 2, 2, 'T', 'ADADADGAA', 0)
       )
     );
   }

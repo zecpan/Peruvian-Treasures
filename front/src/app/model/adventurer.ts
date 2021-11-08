@@ -1,4 +1,5 @@
 import { Coordinates } from './interfaces/coordinates';
+
 export class Adventurer implements Coordinates {
   constructor(
     public type: string,
@@ -9,6 +10,19 @@ export class Adventurer implements Coordinates {
     public motionSequence: string,
     public nbTreasur: number
   ) {}
+
+  public isValid(): boolean {
+    switch (this.orientation) {
+      case 'N':
+      case 'S':
+      case 'E':
+      case 'O':
+        return true;
+      default:
+        console.log("L' aventurier " + this.name + " n'est pas valide");
+        return false;
+    }
+  }
 
   toSting(): string {
     return (
