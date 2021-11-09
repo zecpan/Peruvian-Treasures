@@ -6,7 +6,7 @@ export class Mountain implements Coordinates {
     public vertical: number
   ) {}
 
-  toSting(): string {
-    return this.type + ' - ' + this.horizontal + ' - ' + this.vertical + '\n';
+  toString(): string {
+    return `${this.type} - ${this.horizontal} - ${this.vertical}\n`;
   }
 }

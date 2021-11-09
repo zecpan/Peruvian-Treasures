@@ -66,13 +66,7 @@ export class Map {
       return true;
     }
     console.log(
-      'Les coordonnées ' +
-        coordinate.type +
-        ' - ' +
-        coordinate.horizontal +
-        ' - ' +
-        coordinate.vertical +
-        ' sont en dehors des dimensions de la carte'
+      `Les coordonnées ${coordinate.type} - ${coordinate.horizontal} - ${coordinate.vertical} sont en dehors des dimensions de la carte`
     );
     return false;
   }
@@ -81,19 +75,19 @@ export class Map {
     return coordinates;
   }
 
-  toSting(): string {
+  toString(): string {
     let sb: string;
 
-    let sbmap = this.type + ' - ' + this.width + ' - ' + this.height + '\n';
+    let sbmap = `${this.type} - ${this.width} - ${this.height}\n`;
     sb = sbmap;
     this.mountains.forEach((mountain) => {
-      sb = sb.concat(mountain.toSting());
+      sb = sb.concat(mountain.toString());
     });
     this.treasures.forEach((treasur) => {
-      sb = sb.concat(treasur.toSting());
+      sb = sb.concat(treasur.toString());
     });
     this.adventurers.forEach((adventurer) => {
-      sb = sb.concat(adventurer.toSting());
+      sb = sb.concat(adventurer.toString());
     });
     return sb;
   }

@@ -35,12 +35,7 @@ export class Adventurer implements Coordinates {
         case 'A':
           this.avancer(this.orientation, carte);
           console.log(
-            'horizontal: ' +
-              this.horizontal +
-              ' vertical: ' +
-              this.vertical +
-              ' nombre de trésors: ' +
-              this.nbTreasur
+            `horizontal: ${this.horizontal} vertical: ${this.vertical} nombre de trésors: ${this.nbTreasur}`
           );
           break;
         case 'D':
@@ -173,21 +168,7 @@ export class Adventurer implements Coordinates {
     }
   }
 
-  toSting(): string {
-    return (
-      '# {A comme Aventurier} - {Nom de l’aventurier} - {Axe horizontal} - {Axe vertical} - {Orientation} - {Nb. trésors ramassés} \n' +
-      this.type +
-      ' - ' +
-      this.name +
-      ' - ' +
-      this.horizontal +
-      ' - ' +
-      this.vertical +
-      ' - ' +
-      this.orientation +
-      ' - ' +
-      this.nbTreasur +
-      '\n'
-    );
+  toString(): string {
+    return `# {A comme Aventurier} - {Nom de l’aventurier} - {Axe horizontal} - {Axe vertical} - {Orientation} - {Nb. trésors ramassés} \n${this.type} - ${this.name} - ${this.horizontal} - ${this.vertical} - ${this.orientation} - ${this.nbTreasur}\n`;
   }
 }

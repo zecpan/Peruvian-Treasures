@@ -7,17 +7,7 @@ export class Treasur implements Coordinates {
     public nbTreasur: number
   ) {}
 
-  toSting(): string {
-    return (
-      '# {T comme Trésor} - {Axe horizontal} - {Axe vertical} - {Nb. trésors ramassés} \n' +
-      this.type +
-      ' - ' +
-      this.horizontal +
-      ' - ' +
-      this.vertical +
-      ' - ' +
-      this.nbTreasur +
-      '\n'
-    );
+  toString(): string {
+    return `# {T comme Trésor} - {Axe horizontal} - {Axe vertical} - {Nb. trésors ramassés} \n${this.type} - ${this.horizontal} - ${this.vertical} - ${this.nbTreasur}\n`;
   }
 }
