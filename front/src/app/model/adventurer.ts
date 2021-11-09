@@ -26,6 +26,37 @@ export class Adventurer implements Coordinates {
     }
   }
 
+  startMotion(carte: Map): void {
+    for (let index = 0; index < this.motionSequence.length; index++) {
+      const movement = this.motionSequence[index];
+      console.log(movement);
+
+      switch (movement) {
+        case 'A':
+          this.avancer(this.orientation, carte);
+          console.log(
+            'horizontal: ' +
+              this.horizontal +
+              ' vertical: ' +
+              this.vertical +
+              ' nombre de trésors: ' +
+              this.nbTreasur
+          );
+          break;
+        case 'D':
+          this.droite(this.orientation);
+          console.log('orientation ' + this.orientation);
+          break;
+        case 'G':
+          this.gauche(this.orientation);
+          console.log('orientation ' + this.orientation);
+          break;
+        default:
+          break;
+      }
+    }
+  }
+
   avancer(orientation: string, carte: Map): void {
     let tempVertical: number;
     let tempHorizontal: number;
@@ -65,10 +96,10 @@ export class Adventurer implements Coordinates {
         this.orientation = 'E';
         break;
       case 'E':
-        this.orientation = 'N';
+        this.orientation = 'S';
         break;
       case 'O':
-        this.orientation = 'S';
+        this.orientation = 'N';
         break;
       default:
         break;
@@ -84,10 +115,10 @@ export class Adventurer implements Coordinates {
         this.orientation = 'O';
         break;
       case 'E':
-        this.orientation = 'S';
+        this.orientation = 'N';
         break;
       case 'O':
-        this.orientation = 'N';
+        this.orientation = 'S';
         break;
       default:
         break;

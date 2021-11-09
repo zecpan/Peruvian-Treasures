@@ -42,7 +42,7 @@ export class MapComponent implements OnInit {
       )
     );
     console.log(carte.toSting());
-    carte.adventurers[0].avancer(carte.adventurers[0].orientation, carte);
+    carte.adventurers[0].startMotion(carte);
   }
 
   exportMapFile() {
