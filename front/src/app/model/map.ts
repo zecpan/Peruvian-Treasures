@@ -77,6 +77,10 @@ export class Map {
     return false;
   }
 
+  getMapCoordinates(): Array<Coordinates> {
+    return coordinates;
+  }
+
   toSting(): string {
     let sb: string;
 

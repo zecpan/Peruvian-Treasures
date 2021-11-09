@@ -1,4 +1,5 @@
 import { Coordinates } from './interfaces/coordinates';
+import { Map } from './map';
 
 export class Adventurer implements Coordinates {
   constructor(
@@ -24,65 +25,28 @@ export class Adventurer implements Coordinates {
     }
   }
 
-  avancer(
-    orientation: string,
-    coordinates: Array<Coordinates>,
-    mapWidth: number,
-    mapHeight: number
-  ): void {
+  avancer(orientation: string, carte: Map): void {
     let tempVertical: number;
     let tempHorizontal: number;
     switch (orientation) {
       case 'N':
         tempVertical = this.vertical - 1;
-        if (
-          this.checkCoordinates(
-            this.horizontal,
-            tempVertical,
-            coordinates,
-            mapWidth,
-            mapHeight
-          )
-        )
+        if (this.checkCoordinates(this.horizontal, tempVertical, carte))
           this.vertical--;
         break;
       case 'S':
         tempVertical = this.vertical + 1;
-        if (
-          this.checkCoordinates(
-            this.horizontal,
-            tempVertical,
-            coordinates,
-            mapWidth,
-            mapHeight
-          )
-        )
+        if (this.checkCoordinates(this.horizontal, tempVertical, carte))
           this.vertical++;
         break;
       case 'E':
         tempHorizontal = this.horizontal - 1;
-        if (
-          this.checkCoordinates(
-            tempHorizontal,
-            this.vertical,
-            coordinates,
-            mapWidth,
-            mapHeight
-          )
-        )
+        if (this.checkCoordinates(tempHorizontal, this.vertical, carte))
           this.horizontal--;
         break;
       case 'O':
         tempHorizontal = this.horizontal + 1;
-        if (
-          this.checkCoordinates(
-            tempHorizontal,
-            this.vertical,
-            coordinates,
-            mapWidth,
-            mapHeight
-          )
-        )
+        if (this.checkCoordinates(tempHorizontal, this.vertical, carte))
           this.horizontal++;
         break;
       default:
@@ -128,24 +92,19 @@ export class Adventurer implements Coordinates {
     }
   }
 
-  checkCoordinates(
-    horizontal: number,
-    vertical: number,
-    coordinates: Array<Coordinates>,
-    mapWidth: number,
-    mapHeight: number
-  ): boolean {
+  checkCoordinates(horizontal: number, vertical: number, carte: Map): boolean {
     if (
-      !(horizontal < 0 || horizontal > mapWidth - 1) &&
-      !(vertical < 0 || vertical > mapHeight - 1)
+      !(horizontal < 0 || horizontal > carte.width - 1) &&
+      !(vertical < 0 || vertical > carte.height - 1)
     ) {
-      const nextCoordinate = this.ensure(
-        coordinates.find(
+      const nextCoordinate = carte
+        .getMapCoordinates()
+        .find(
           (r: Coordinates) =>
             r.horizontal == horizontal && r.vertical == vertical
-        )
-      );
-      if (nextCoordinate != undefined) return true;
+        );
+      if (nextCoordinate == undefined) return true;
+      console.log((nextCoordinate as any).type);
       switch ((nextCoordinate as any).type) {
         case 'M':
           return false;
@@ -155,17 +114,6 @@ export class Adventurer implements Coordinates {
       }
     }
     return false;
-  }
-
-  ensure<T>(
-    argument: T | undefined | null,
-    message: string = 'This value was promised to be there.'
-  ): T {
-    if (argument === undefined || argument === null) {
-      throw new TypeError(message);
-    }
-
-    return argument;
   }
 
   toSting(): string {
