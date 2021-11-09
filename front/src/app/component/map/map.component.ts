@@ -41,13 +41,13 @@ export class MapComponent implements OnInit {
         new Adventurer('A', 'Donald Trump', 2, 2, 'T', 'ADADADGAA', 0)
       )
     );
-    console.log(carte.toSting());
+    console.log(carte.toString());
     carte.adventurers[0].startMotion(carte);
   }
 
   exportMapFile() {
     // Export the actual Map to a file format
     console.log('Export de la carte');
-    console.log(carte.toSting());
+    console.log(carte.toString());
   }
 }
