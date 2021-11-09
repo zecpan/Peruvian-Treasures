@@ -1,5 +1,6 @@
 import { Coordinates } from './interfaces/coordinates';
 import { Map } from './map';
+import { Treasur } from './treasur';
 
 export class Adventurer implements Coordinates {
   constructor(
@@ -52,6 +53,7 @@ export class Adventurer implements Coordinates {
       default:
         break;
     }
+    this.lookingForTreasur(this.horizontal, this.vertical, carte);
   }
 
   gauche(orientation: string): void {
@@ -104,16 +106,40 @@ export class Adventurer implements Coordinates {
             r.horizontal == horizontal && r.vertical == vertical
         );
       if (nextCoordinate == undefined) return true;
-      console.log((nextCoordinate as any).type);
       switch ((nextCoordinate as any).type) {
-        case 'M':
-          return false;
         case 'T':
-        case 'A':
           return true;
+        default:
+          return false;
       }
     }
     return false;
+  }
+
+  lookingForTreasur(horizontal: number, vertical: number, carte: Map): void {
+    if (
+      !(horizontal < 0 || horizontal > carte.width - 1) &&
+      !(vertical < 0 || vertical > carte.height - 1)
+    ) {
+      const potentialTreasur = carte
+        .getMapCoordinates()
+        .find(
+          (r: Coordinates) =>
+            r.horizontal == horizontal && r.vertical == vertical
+        );
+      if (potentialTreasur != undefined) {
+        if (potentialTreasur.type == 'T') {
+          if ((potentialTreasur as Treasur).nbTreasur > 0) {
+            carte.treasures = carte.treasures.filter(
+              (r) => (potentialTreasur as Treasur) != r
+            );
+            (potentialTreasur as Treasur).nbTreasur--;
+            carte.treasures.push(potentialTreasur as Treasur);
+            this.nbTreasur++;
+          }
+        }
+      }
+    }
   }
 
   toSting(): string {

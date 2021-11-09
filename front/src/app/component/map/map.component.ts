@@ -25,9 +25,9 @@ export class MapComponent implements OnInit {
       4,
       new Array<Mountain>(
         new Mountain('M', 0, 2),
-        new Mountain('M', 1, 1),
+        new Mountain('M', 1, 2),
         new Mountain('M', 3, 1),
-        new Mountain('M', 1, 1)
+        new Mountain('M', 1, 2)
       ),
       new Array<Treasur>(
         new Treasur('T', 0, 0, 3),
@@ -41,7 +41,7 @@ export class MapComponent implements OnInit {
         new Adventurer('A', 'Donald Trump', 2, 2, 'T', 'ADADADGAA', 0)
       )
     );
-
+    console.log(carte.toSting());
     carte.adventurers[0].avancer(carte.adventurers[0].orientation, carte);
   }
 
