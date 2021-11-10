@@ -3,6 +3,8 @@ import { Adventurer } from 'src/app/model/adventurer';
 import { Map } from 'src/app/model/map';
 import { Mountain } from 'src/app/model/mountain';
 import { Treasur } from 'src/app/model/treasur';
+import { Inject } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
 
 @Component({
   selector: 'app-map',
@@ -12,8 +14,8 @@ import { Treasur } from 'src/app/model/treasur';
 export class MapComponent {
   carte: Map | undefined;
   isMapLoaded: boolean = false;
-  constructor() {
-    this.isMapLoaded = false;
+  constructor(@Inject(DOCUMENT) document: any) {
+    document.getElementById('el');
   }
 
   initMap() {
@@ -56,5 +58,19 @@ export class MapComponent {
     // Export the actual Map to a file format
     console.log('Export de la carte');
     if (this.carte != undefined) console.log(this.carte.toString());
+  }
+
+  public onChange(event: any): void {
+    var file: File = event.target?.files[0];
+    let fileReader: FileReader = new FileReader();
+    fileReader.onloadend = function (x) {
+      var lines = fileReader.result?.toString().split(/\r?\n/);
+      console.log(fileReader.result);
+      if (lines != undefined)
+        for (const line of lines) {
+          console.log(line);
+        }
+    };
+    fileReader.readAsText(file);
   }
 }
