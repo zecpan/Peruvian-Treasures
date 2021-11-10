@@ -49,16 +49,9 @@ export class Map {
           r.horizontal == coordinate.horizontal &&
           r.vertical == coordinate.vertical
       );
-      console.log(duplicate);
       if (duplicate != undefined) {
         console.log(
-          'Les coordonnées ' +
-            coordinate.type +
-            ' - ' +
-            coordinate.horizontal +
-            ' - ' +
-            coordinate.vertical +
-            ' sont déjà utilisées par un autre élément'
+          `Les coordonnées ${coordinate.type} - ${coordinate.horizontal} - ${coordinate.vertical} sont déjà utilisées par un autre élément`
         );
         return false;
       }

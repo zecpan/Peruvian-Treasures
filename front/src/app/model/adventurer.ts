@@ -21,14 +21,13 @@ export class Adventurer implements Coordinates {
       case 'O':
         return true;
       default:
-        console.log("L' aventurier " + this.name + " n'est pas valide");
+        console.log(`L' aventurier ${this.name} n'est pas valide`);
         return false;
     }
   }
 
   startMotion(carte: Map): void {
-    for (let index = 0; index < this.motionSequence.length; index++) {
-      const movement = this.motionSequence[index];
+    for (const movement of this.motionSequence) {
       console.log(movement);
 
       switch (movement) {
@@ -40,11 +39,11 @@ export class Adventurer implements Coordinates {
           break;
         case 'D':
           this.droite(this.orientation);
-          console.log('orientation ' + this.orientation);
+          console.log(`orientation ${this.orientation}`);
           break;
         case 'G':
           this.gauche(this.orientation);
-          console.log('orientation ' + this.orientation);
+          console.log(`orientation ${this.orientation}`);
           break;
         default:
           break;
@@ -67,14 +66,14 @@ export class Adventurer implements Coordinates {
           this.vertical++;
         break;
       case 'E':
-        tempHorizontal = this.horizontal - 1;
-        if (this.checkCoordinates(tempHorizontal, this.vertical, carte))
-          this.horizontal--;
-        break;
-      case 'O':
         tempHorizontal = this.horizontal + 1;
         if (this.checkCoordinates(tempHorizontal, this.vertical, carte))
           this.horizontal++;
+        break;
+      case 'O':
+        tempHorizontal = this.horizontal - 1;
+        if (this.checkCoordinates(tempHorizontal, this.vertical, carte))
+          this.horizontal--;
         break;
       default:
         break;
@@ -91,10 +90,10 @@ export class Adventurer implements Coordinates {
         this.orientation = 'E';
         break;
       case 'E':
-        this.orientation = 'S';
+        this.orientation = 'N';
         break;
       case 'O':
-        this.orientation = 'N';
+        this.orientation = 'S';
         break;
       default:
         break;
@@ -110,10 +109,10 @@ export class Adventurer implements Coordinates {
         this.orientation = 'O';
         break;
       case 'E':
-        this.orientation = 'N';
+        this.orientation = 'S';
         break;
       case 'O':
-        this.orientation = 'S';
+        this.orientation = 'N';
         break;
       default:
         break;
@@ -132,12 +131,7 @@ export class Adventurer implements Coordinates {
             r.horizontal == horizontal && r.vertical == vertical
         );
       if (nextCoordinate == undefined) return true;
-      switch ((nextCoordinate as any).type) {
-        case 'T':
-          return true;
-        default:
-          return false;
-      }
+      return nextCoordinate.type == 'T' ? true : false;
     }
     return false;
   }
@@ -151,18 +145,18 @@ export class Adventurer implements Coordinates {
         .getMapCoordinates()
         .find(
           (r: Coordinates) =>
-            r.horizontal == horizontal && r.vertical == vertical
-        );
+            r.horizontal == horizontal &&
+            r.vertical == vertical &&
+            r.type == 'T'
+        ) as Treasur;
       if (potentialTreasur != undefined) {
-        if (potentialTreasur.type == 'T') {
-          if ((potentialTreasur as Treasur).nbTreasur > 0) {
-            carte.treasures = carte.treasures.filter(
-              (r) => (potentialTreasur as Treasur) != r
-            );
-            (potentialTreasur as Treasur).nbTreasur--;
-            carte.treasures.push(potentialTreasur as Treasur);
-            this.nbTreasur++;
-          }
+        if (potentialTreasur.nbTreasur > 0) {
+          carte.treasures = carte.treasures.filter(
+            (r) => potentialTreasur != r
+          );
+          potentialTreasur.nbTreasur--;
+          carte.treasures.push(potentialTreasur);
+          this.nbTreasur++;
         }
       }
     }
