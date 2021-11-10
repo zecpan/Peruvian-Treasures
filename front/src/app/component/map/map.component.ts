@@ -1,25 +1,25 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Adventurer } from 'src/app/model/adventurer';
 import { Map } from 'src/app/model/map';
 import { Mountain } from 'src/app/model/mountain';
 import { Treasur } from 'src/app/model/treasur';
-
-let carte: Map;
 
 @Component({
   selector: 'app-map',
   templateUrl: './map.component.html',
   styleUrls: ['./map.component.scss'],
 })
-export class MapComponent implements OnInit {
-  constructor() {}
-
-  ngOnInit(): void {}
+export class MapComponent {
+  carte: Map | undefined;
+  isMapLoaded: boolean = false;
+  constructor() {
+    this.isMapLoaded = false;
+  }
 
   initMap() {
     //Load MapFile by name
     console.log('Chargement de la carte');
-    carte = new Map(
+    this.carte = new Map(
       'C',
       3,
       4,
@@ -41,13 +41,20 @@ export class MapComponent implements OnInit {
         new Adventurer('A', 'Donald Trump', 2, 2, 'T', 'ADADADGAA', 0)
       )
     );
-    console.log(carte.toString());
-    carte.adventurers[0].startMotion(carte);
+    console.log(this.carte.toString());
+    this.isMapLoaded = true;
+  }
+
+  start() {
+    if (this.carte != undefined)
+      for (const adventurer of this.carte.adventurers) {
+        adventurer.startMotion(this.carte);
+      }
   }
 
   exportMapFile() {
     // Export the actual Map to a file format
     console.log('Export de la carte');
-    console.log(carte.toString());
+    if (this.carte != undefined) console.log(this.carte.toString());
   }
 }

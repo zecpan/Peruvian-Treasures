@@ -1,6 +1,11 @@
 <main>
   <h1>Bienvenue au Pérou</h1>
   <h2>La carte aux trésors du gouvernement péruvien</h2>
-  <button (click)="initMap()">Charger la carte</button
-  ><button (click)="exportMapFile()">Exporter la carte</button>
+  <button (click)="initMap()">Charger la carte</button>
+  <button [hidden]="!isMapLoaded" (click)="start()">
+    Commencer la chasse aux trésors
+  </button>
+  <button [hidden]="!isMapLoaded" (click)="exportMapFile()">
+    Exporter la carte
+  </button>
 </main>
