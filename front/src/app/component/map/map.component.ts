@@ -3,8 +3,6 @@ import { Adventurer } from 'src/app/model/adventurer';
 import { Map } from 'src/app/model/map';
 import { Mountain } from 'src/app/model/mountain';
 import { Treasur } from 'src/app/model/treasur';
-import { Inject } from '@angular/core';
-import { DOCUMENT } from '@angular/common';
 
 @Component({
   selector: 'app-map',
@@ -14,35 +12,38 @@ import { DOCUMENT } from '@angular/common';
 export class MapComponent {
   carte: Map | undefined;
   isMapLoaded: boolean = false;
-  constructor(@Inject(DOCUMENT) document: any) {
-    document.getElementById('el');
-  }
+  arrayOfMountain: Array<Mountain> = new Array<Mountain>();
+  arrayOfTreasures: Array<Treasur> = new Array<Treasur>();
+  arrayOfAdventurers: Array<Adventurer> = new Array<Adventurer>();
+  fileReaderReady: FileReader | undefined;
 
   initMap() {
-    //Load MapFile by name
-    console.log('Chargement de la carte');
-    this.carte = new Map(
-      'C',
-      3,
-      4,
-      new Array<Mountain>(
-        new Mountain('M', 0, 2),
-        new Mountain('M', 1, 2),
-        new Mountain('M', 3, 1),
-        new Mountain('M', 1, 2)
-      ),
-      new Array<Treasur>(
-        new Treasur('T', 0, 0, 3),
-        new Treasur('T', 0, 1, 2),
-        new Treasur('T', 1, 1, 1),
-        new Treasur('T', 1, -1, 1),
-        new Treasur('T', 0, 1, 2)
-      ),
-      new Array<Adventurer>(
-        new Adventurer('A', 'Indianna Jones', 2, 1, 'O', 'AADAGGAGA', 0),
-        new Adventurer('A', 'Donald Trump', 2, 2, 'T', 'ADADADGAA', 0)
-      )
-    );
+    this.createMap();
+    if (this.carte == undefined) {
+      console.log('Chargement de la carte');
+      this.carte = new Map(
+        'C',
+        3,
+        4,
+        new Array<Mountain>(
+          new Mountain('M', 0, 2),
+          new Mountain('M', 1, 2),
+          new Mountain('M', 3, 1),
+          new Mountain('M', 1, 2)
+        ),
+        new Array<Treasur>(
+          new Treasur('T', 0, 0, 3),
+          new Treasur('T', 0, 1, 2),
+          new Treasur('T', 1, 1, 1),
+          new Treasur('T', 1, -1, 1),
+          new Treasur('T', 0, 1, 2)
+        ),
+        new Array<Adventurer>(
+          new Adventurer('A', 'Indianna Jones', 2, 1, 'O', 'AADAGGAGA', 0),
+          new Adventurer('A', 'Donald Trump', 2, 2, 'T', 'ADADADGAA', 0)
+        )
+      );
+    }
     console.log(this.carte.toString());
     this.isMapLoaded = true;
   }
@@ -83,14 +84,70 @@ export class MapComponent {
   public onChange(event: any): void {
     var file: File = event.target?.files[0];
     let fileReader: FileReader = new FileReader();
-    fileReader.onloadend = function (x) {
-      var lines = fileReader.result?.toString().split(/\r?\n/);
-      console.log(fileReader.result);
-      if (lines != undefined)
-        for (const line of lines) {
-          console.log(line);
-        }
-    };
     fileReader.readAsText(file);
+    this.fileReaderReady = fileReader;
+  }
+
+  createMap() {
+    var lines = this.fileReaderReady?.result?.toString().split(/\r?\n/);
+    if (lines != undefined) {
+      console.log('Chargement de la carte part fichier');
+      let mapWidth: number = 0;
+      let mapHeight: number = 0;
+      this.arrayOfMountain = new Array<Mountain>();
+      this.arrayOfTreasures = new Array<Treasur>();
+      this.arrayOfAdventurers = new Array<Adventurer>();
+      for (const line of lines) {
+        var trimLine = line.toString().replace(/\s/g, '').split('-');
+        switch (trimLine[0]) {
+          case 'C':
+            mapWidth = Number(trimLine[1]);
+            mapHeight = Number(trimLine[2]);
+            break;
+          case 'M':
+            this.arrayOfMountain.push(
+              new Mountain(
+                trimLine[0],
+                Number(trimLine[1]),
+                Number(trimLine[2])
+              )
+            );
+            break;
+          case 'T':
+            this.arrayOfTreasures.push(
+              new Treasur(
+                trimLine[0],
+                Number(trimLine[1]),
+                Number(trimLine[2]),
+                Number(trimLine[3])
+              )
+            );
+            break;
+          case 'A':
+            this.arrayOfAdventurers.push(
+              new Adventurer(
+                trimLine[0],
+                trimLine[1],
+                Number(trimLine[2]),
+                Number(trimLine[3]),
+                trimLine[4],
+                trimLine[5],
+                Number(trimLine[6])
+              )
+            );
+            break;
+          default:
+            break;
+        }
+      }
+      this.carte = new Map(
+        'C',
+        mapWidth,
+        mapHeight,
+        this.arrayOfMountain,
+        this.arrayOfTreasures,
+        this.arrayOfAdventurers
+      );
+    }
   }
 }
