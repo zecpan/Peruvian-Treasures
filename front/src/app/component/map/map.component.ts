@@ -57,7 +57,27 @@ export class MapComponent {
   exportMapFile() {
     // Export the actual Map to a file format
     console.log('Export de la carte');
-    if (this.carte != undefined) console.log(this.carte.toString());
+    if (this.carte != undefined) {
+      console.log(this.carte.toString());
+
+      var file = new Blob([this.carte.toString()], { type: '.txt' });
+
+      // Others
+      var a = document.createElement('a'),
+        url = URL.createObjectURL(file);
+      a.href = url;
+      a.download =
+        'carte_' +
+        new Date().toLocaleDateString() +
+        '_' +
+        new Date().toLocaleTimeString();
+      document.body.appendChild(a);
+      a.click();
+      setTimeout(function () {
+        document.body.removeChild(a);
+        window.URL.revokeObjectURL(url);
+      }, 0);
+    }
   }
 
   public onChange(event: any): void {
