@@ -1,0 +1,28 @@
+button {
+  padding: 0.5em 1em;
+  border: 0.1em solid #eee;
+  background-color: #eee;
+  &:not(:disabled) {
+    cursor: pointer;
+
+    &:hover {
+      border-color: #ddd;
+      background-color: #ddd;
+    }
+
+    &:active {
+      border-color: #ccc;
+      background-color: #ccc;
+    }
+  }
+}
+
+.option {
+  margin-top: 3em;
+}
+
+td {
+  height: 10em;
+  width: 10em;
+  text-align: center;
+}

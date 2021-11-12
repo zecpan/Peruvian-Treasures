@@ -26,16 +26,18 @@ export class Adventurer implements Coordinates {
     }
   }
 
-  startMotion(carte: Map): void {
+  delay = async (ms = 1000) =>
+    new Promise((resolve) => setTimeout(resolve, ms));
+  async startMotion(carte: Map) {
     for (const movement of this.motionSequence) {
       console.log(movement);
-
       switch (movement) {
         case 'A':
           this.avancer(this.orientation, carte);
           console.log(
             `horizontal: ${this.horizontal} vertical: ${this.vertical} nombre de trésors: ${this.nbTreasur}`
           );
+          await this.delay(500);
           break;
         case 'D':
           this.droite(this.orientation);

@@ -2,11 +2,49 @@
   <h1>Bienvenue au Pérou</h1>
   <h2>La carte aux trésors du gouvernement péruvien</h2>
   <input type="file" (change)="onChange($event)" />
-  <button (click)="initMap()">Charger la carte</button>
-  <button [hidden]="!isMapLoaded" (click)="start()">
-    Commencer la chasse aux trésors
-  </button>
-  <button [hidden]="!isMapLoaded" (click)="exportMapFile()">
-    Exporter la carte
-  </button>
+  <div class="option">
+    <button (click)="initMap()">Charger la carte</button>
+    <button [hidden]="!isMapLoaded" (click)="start()">
+      Commencer la chasse aux trésors
+    </button>
+    <button [hidden]="!isMapLoaded" (click)="exportMapFile()">
+      Exporter la carte
+    </button>
+  </div>
+  <div [hidden]="!isMapLoaded" class="map">
+    <table>
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col" *ngFor="let i of arrayOfWidth">
+            {{ i }}
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <ng-container>
+          <tr *ngFor="let j of arrayOfHeight">
+            <th scope="col">{{ j }}</th>
+            <td *ngFor="let i of arrayOfWidth">
+              <span *ngFor="let c of arrayOfAllCoordinates">
+                <span *ngIf="c.horizontal == i && c.vertical == j">
+                  <span [ngSwitch]="c.type">
+                    <span *ngSwitchCase="'T'"
+                      >{{ c.type }}({{ $any(c).nbTreasur }})</span
+                    >
+                    <span *ngSwitchCase="'A'"
+                      >{{ c.type }}({{ $any(c).name }})({{
+                        $any(c).nbTreasur
+                      }})</span
+                    >
+                    <span *ngSwitchDefault>{{ c.type }}</span>
+                  </span>
+                </span>
+              </span>
+            </td>
+          </tr>
+        </ng-container>
+      </tbody>
+    </table>
+  </div>
 </main>

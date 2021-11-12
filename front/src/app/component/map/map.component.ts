@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { Adventurer } from 'src/app/model/adventurer';
+import { DefaultCoordinate } from 'src/app/model/defaultCoordinate';
+import { Coordinates } from 'src/app/model/interfaces/coordinates';
 import { Map } from 'src/app/model/map';
 import { Mountain } from 'src/app/model/mountain';
 import { Treasur } from 'src/app/model/treasur';
@@ -16,6 +18,9 @@ export class MapComponent {
   arrayOfTreasures: Array<Treasur> = new Array<Treasur>();
   arrayOfAdventurers: Array<Adventurer> = new Array<Adventurer>();
   fileReaderReady: FileReader | undefined;
+  arrayOfWidth: Array<number> | undefined;
+  arrayOfHeight: Array<number> | undefined;
+  arrayOfAllCoordinates: Array<Coordinates> | undefined;
 
   initMap() {
     this.createMap();
@@ -44,6 +49,8 @@ export class MapComponent {
         )
       );
     }
+
+    this.displayMap();
     console.log(this.carte.toString());
     this.isMapLoaded = true;
   }
@@ -148,6 +155,42 @@ export class MapComponent {
         this.arrayOfTreasures,
         this.arrayOfAdventurers
       );
+    }
+  }
+
+  displayMap() {
+    this.arrayOfAllCoordinates = new Array<Coordinates>();
+    this.arrayOfHeight = new Array<number>();
+    this.arrayOfWidth = new Array<number>();
+    if (this.carte != undefined) {
+      for (let i = 0; i < this.carte.width; i++) {
+        this.arrayOfWidth.push(i);
+      }
+
+      for (let i = 0; i < this.carte.height; i++) {
+        this.arrayOfHeight.push(i);
+      }
+
+      let mapCoordinates = this.carte.getMapCoordinates();
+      let arrayOfDefaultsCoordinates = new Array<Coordinates>();
+
+      for (let i = 0; i < this.carte.width; i++) {
+        for (let j = 0; j < this.carte.height; j++) {
+          let tempCoordinate = new DefaultCoordinate('.', i, j);
+          const existCoordinate = mapCoordinates.find(
+            (c) =>
+              tempCoordinate.horizontal == c.horizontal &&
+              tempCoordinate.vertical == c.vertical
+          );
+
+          if (existCoordinate == undefined)
+            arrayOfDefaultsCoordinates.push(tempCoordinate);
+        }
+      }
+
+      this.arrayOfAllCoordinates =
+        arrayOfDefaultsCoordinates.concat(mapCoordinates);
+      console.log(this.arrayOfAllCoordinates);
     }
   }
 }
