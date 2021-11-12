@@ -37,7 +37,6 @@ export class Adventurer implements Coordinates {
           console.log(
             `horizontal: ${this.horizontal} vertical: ${this.vertical} nombre de trésors: ${this.nbTreasur}`
           );
-          await this.delay(500);
           break;
         case 'D':
           this.droite(this.orientation);
@@ -50,6 +49,7 @@ export class Adventurer implements Coordinates {
         default:
           break;
       }
+      await this.delay(500);
     }
   }
 

@@ -34,8 +34,8 @@
                     >
                     <span *ngSwitchCase="'A'"
                       >{{ c.type }}({{ $any(c).name }})({{
-                        $any(c).nbTreasur
-                      }})</span
+                        $any(c).orientation
+                      }})({{ $any(c).nbTreasur }})</span
                     >
                     <span *ngSwitchDefault>{{ c.type }}</span>
                   </span>

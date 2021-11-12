@@ -177,17 +177,9 @@ export class MapComponent {
       for (let i = 0; i < this.carte.width; i++) {
         for (let j = 0; j < this.carte.height; j++) {
           let tempCoordinate = new DefaultCoordinate('.', i, j);
-          const existCoordinate = mapCoordinates.find(
-            (c) =>
-              tempCoordinate.horizontal == c.horizontal &&
-              tempCoordinate.vertical == c.vertical
-          );
-
-          if (existCoordinate == undefined)
-            arrayOfDefaultsCoordinates.push(tempCoordinate);
+          arrayOfDefaultsCoordinates.push(tempCoordinate);
         }
       }
-
       this.arrayOfAllCoordinates =
         arrayOfDefaultsCoordinates.concat(mapCoordinates);
       console.log(this.arrayOfAllCoordinates);
